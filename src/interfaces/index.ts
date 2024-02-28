@@ -1,20 +1,20 @@
 export interface Chats {
-  id: String,
-  name: String,
-  isGroup: Boolean,
+  id: string,
+  name: string,
+  isGroup: boolean,
   lastMessage: {
-    body: String,
-    type: String,
-    author: String,
-  },
-  timestamp: Number,
-  
+    body: string,
+    type: string,
+    author: string | undefined,
+  } | null,
+  timestamp: number,
+
 }
 
 export interface Messages {
-  timestamp: Number,
-  ack: Number,
-  author?: String,
-  body: String,
-  fromMe: Boolean
+  timestamp: number,
+  ack: number,
+  author?: string,
+  body: string,
+  fromMe: boolean
 }

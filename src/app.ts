@@ -1,48 +1,22 @@
-import { Chat, LocalAuth, Message } from 'whatsapp-web.js';
+import { Chat, Message } from 'whatsapp-web.js';
 import { Chats, Messages } from './interfaces/index'
 import { Http2SecureServer } from 'http2';
 import { Socket } from 'socket.io';
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
-const mongoose = require('mongoose');
+import client from './api';
+import { corsOptions } from './corsOptions';
 
 const express = require('express');
 const app = express();
 const port = 5000;
 const cors = require("cors")
-const corsOptions = {
-  origin: "http://localhost:3000",
-  allowedHeaders: [
-    { key: 'Access-Control-Allow-Credentials', value: 'true' },
-    { key: 'Access-Control-Allow-Origin', value: '*' },
-    { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
-    { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-requested-With' }],
-  credentials: true
-}
-
 const { createServer } = require("http");
-const { Server } = require("socket.io");
 const httpServer: Http2SecureServer = createServer(app);
+const { Server } = require("socket.io");
 
 const io = new Server(httpServer, { cors: corsOptions });
 
 app.use(cors([corsOptions]))
 app.use(express.json());
-const client = new Client({
-  authStrategy: new LocalAuth()
-});
-
-client.on('ready', async () => {
-  console.log('client is ready');
-});
-
-client.on('remote_session_saved', () => {
-  console.log('session saved');
-});
-
-client.on('qr', (qr: any) => {
-  qrcode.generate(qr, { small: true });
-});
 
 app.post('/sendMessage', async (req: any, res: any) => {
   try {
@@ -50,15 +24,13 @@ app.post('/sendMessage', async (req: any, res: any) => {
     await client.sendMessage(to, message)
     res.send('success')
   } catch (err) {
-    console.log(err);
-    res.send(err)
+    console.log('erro em /sendMessage \n\n',err);
   }
 })
 
-
 app.get('/getChats', async (req: any, res: any) => {
-  const auxChats = await client.getChats()
   try {
+    const auxChats = await client.getChats()
     const chats: Chats[] = auxChats.map((c: Chat) => {
       return {
         id: c.id._serialized,
@@ -74,8 +46,7 @@ app.get('/getChats', async (req: any, res: any) => {
     })
     res.send(chats)
   } catch (err) {
-    console.log(err);
-    res.send(err)
+    console.log('erro em /getChats \n\n', err);
   }
 })
 
@@ -99,7 +70,7 @@ app.post('/getMessages', async (req: any, res: any) => {
     })
     res.send([{isGroup: chat.isGroup}, messages])
   } catch (err) {
-    res.send(err)
+    console.log('erro em /getMessages \n\n',err);
   }
 })
 
