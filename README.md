@@ -1,3 +1,5 @@
+# WARNING  ⚠️⚠️⚠️
+If you have a business account on WhatsApp, do not use this account to read the QR code, you may have your account banned if you use it
 # Getting Started
 1. First, run the "yarn install" command to install all dependencies
 2. After installing the dependencies, run the "yarn start" command to run the application
