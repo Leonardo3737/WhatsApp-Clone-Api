@@ -1,9 +1,12 @@
-// const client = require('../wwjs/index')
+const client = require('../wwjs')
 
-// const Chat= (id: string) => {
-//   return client.getChatById(id)
-// }
+const Chat= async (id: string) => {
+  try {
+    const chat = await client.getChatById(id)
+    return chat
+  } catch(err) {
+    console.log(err);
+  }
+}
 
-// module.exports = Chat
-
-// export {}
+module.exports = Chat

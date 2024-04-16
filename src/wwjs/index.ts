@@ -7,6 +7,7 @@ const client = new Client({
     remotePath:
       "https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html",
   },
+  authStrategy: new LocalAuth()
 });
 
 try {
@@ -27,5 +28,4 @@ try {
   console.log("não foi possivel inicar a sessão \n", err);
 }
 
-export default client
-
+module.exports = client

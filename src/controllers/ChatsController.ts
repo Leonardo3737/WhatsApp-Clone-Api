@@ -1,3 +1,4 @@
+
 import { Chat } from "whatsapp-web.js"
 import { IChats } from "../interfaces"
 
@@ -7,7 +8,7 @@ module.exports = class ChatsController {
 
   static async getChats(req: any, res: any) {
     try {
-      const auxChats = await Chats
+      const auxChats = await Chats()      
       const chats: IChats[] = auxChats.map((c: Chat) => {
         return {
           data: {
@@ -24,10 +25,10 @@ module.exports = class ChatsController {
         }
       })
       res.status(200).send(chats)
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       
-      res.status(500).send({message: "error no servidor", erro: err})
+      res.status(500).send({message: "error no servidor"})
     }
   }
 }

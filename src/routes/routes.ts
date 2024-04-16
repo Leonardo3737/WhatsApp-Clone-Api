@@ -4,6 +4,6 @@ const ChatRoutes = require('./chatsRoutes')
 const MessagesRoutes = require('./MessagesRoutes')
 
 routes.use('/', ChatRoutes)
-//routes.use('/', MessagesRoutes)
+routes.use('/', MessagesRoutes)
 
 module.exports = routes

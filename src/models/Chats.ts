@@ -1,10 +1,12 @@
-import client from "../wwjs"
+const client = require('../wwjs')
 
-(async () => {
+const Chats = async() => {
   try {
-    const Chats: any = await client.getChats()
-    module.exports = Chats
-  } catch (err) {
-    console.log(err)
+    const chats = await client.getChats()    
+    return chats
+  } catch(err) {
+    console.log(err);
   }
-})()
+}
+
+module.exports = Chats

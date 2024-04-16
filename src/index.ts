@@ -24,12 +24,12 @@ app.use('/', routes)
 
 
 
-// io.on('connection', (socket: Socket) => {
-//   console.log('user connected');
-//   client.on('message_create', async (message: Message) => {
-//     socket.emit("newMessage", message.body)
-//   })
-// })
+io.on('connection', (socket: Socket) => {
+  console.log('user connected');
+  client.on('message_create', async (message: Message) => {
+    socket.emit("newMessage", message.body)
+  })
+})
 
 httpServer.listen(port, () => {
   console.log('servidor rodando');
