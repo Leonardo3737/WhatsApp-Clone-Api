@@ -1,17 +1,19 @@
-import { Chat, Message } from "whatsapp-web.js"
+import { Chat as IChat, Message } from "whatsapp-web.js"
 import { IMessages } from "../interfaces"
+import { Messages } from "../models/Messages"
+import { Chats } from "../models/Chats"
+import { client } from "../wwjs"
+import { Chat } from "../models/Chat"
 
-const Messages = require('../models/Messages')
-const Chats = require('../models/Chats')
-const client = require('../wwjs')
+export class MessagesController {
 
-module.exports = class MessagesController {
   static async getMessages (req: any, res: any) { 
     try {
-      const messages = await Messages(req.body.user)
-      const chats: Chat[] = await Chats()
-      const auxMessages: IMessages[] = messages.map((m: Message) => {
-        let aux: any = chats ? chats.find((c: Chat) => c.id._serialized === m.author) : m.author
+      const chat = await Chat(req.body.user)
+      const auxMessages = await Messages(req.body.user)
+      const chats: IChat[] | undefined = await Chats()
+      const messages: IMessages[] | undefined = auxMessages?.map((m: Message) => {
+        let aux: any = chats ? chats.find((c: IChat) => c.id._serialized === m.author) : m.author
         return {
           timestamp: m.timestamp,
           ack: m.ack,
@@ -20,7 +22,7 @@ module.exports = class MessagesController {
           fromMe: m.fromMe
         }
       })
-      res.send(auxMessages, 200)
+      res.status(200).send([{isGroup: chat?.isGroup}, messages])
     } catch(err) {
       console.log(err);      
       res.status(500).send("Error no Servidor.")
@@ -31,11 +33,10 @@ module.exports = class MessagesController {
     try {
       const to = req.body.to, message = req.body.message
       await client.sendMessage(to, message)
-      res.send('success', 200)
+      res.status(200).send('success')
     } catch (err) {
       console.log(err);      
       res.status(500).send('Erro no Servidor.');
     }
   }
-  
 }

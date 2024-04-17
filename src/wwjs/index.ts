@@ -1,7 +1,7 @@
 import { Client, LocalAuth } from "whatsapp-web.js";
-const qrcode = require('qrcode-terminal');
+import qrcode from 'qrcode-terminal';
 
-const client = new Client({
+export const client = new Client({
   webVersionCache: {
     type: "remote",
     remotePath:
@@ -27,5 +27,3 @@ try {
 } catch (err) {
   console.log("não foi possivel inicar a sessão \n", err);
 }
-
-module.exports = client

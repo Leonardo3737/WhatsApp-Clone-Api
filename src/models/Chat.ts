@@ -1,6 +1,6 @@
-const client = require('../wwjs')
+import { client } from "../wwjs";
 
-const Chat= async (id: string) => {
+export const Chat= async (id: string) => {
   try {
     const chat = await client.getChatById(id)
     return chat
@@ -8,5 +8,3 @@ const Chat= async (id: string) => {
     console.log(err);
   }
 }
-
-module.exports = Chat

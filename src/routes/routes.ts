@@ -1,9 +1,8 @@
-const express = require('express')
-const routes = express.Router()
-const ChatRoutes = require('./chatsRoutes')
-const MessagesRoutes = require('./MessagesRoutes')
+import express from 'express'
+import { messageRoutes } from "./MessagesRoutes"
+import { chatRoutes } from "./chatsRoutes"
 
-routes.use('/', ChatRoutes)
-routes.use('/', MessagesRoutes)
+export const routes = express.Router()
 
-module.exports = routes
+routes.use('', chatRoutes)
+routes.use('', messageRoutes)
