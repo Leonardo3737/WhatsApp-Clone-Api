@@ -1,4 +1,4 @@
-export interface Chats {
+export interface IChats {
   id: string,
   name: string,
   isGroup: boolean,
@@ -8,10 +8,9 @@ export interface Chats {
     author: string | undefined,
   } | null,
   timestamp: number,
-
 }
 
-export interface Messages {
+export interface IMessages {
   timestamp: number,
   ack: number,
   author?: string,
