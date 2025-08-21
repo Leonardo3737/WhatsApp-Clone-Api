@@ -2,6 +2,7 @@ export interface IChats {
   id: string,
   name: string,
   isGroup: boolean,
+  unreadCount: number
   lastMessage: {
     body: string,
     type: string,
@@ -15,5 +16,6 @@ export interface IMessages {
   ack: number,
   author?: string,
   body: string,
-  fromMe: boolean
+  fromMe: boolean,
+  type: string
 }

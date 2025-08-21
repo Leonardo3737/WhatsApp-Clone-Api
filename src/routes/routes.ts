@@ -1,8 +1,15 @@
-import express from 'express'
-import { messageRoutes } from "./MessagesRoutes"
-import { chatRoutes } from "./chatsRoutes"
+import { Express } from 'express'
+import { Client } from 'whatsapp-web.js'
+import { ChatsController } from '../controllers/ChatsController'
+import { MessagesController } from '../controllers/MessagesController'
 
-export const routes = express.Router()
+export function startup(app: Express, client: Client) {
+  const chatsController = new ChatsController(client)
+  const messagesController = new MessagesController(client)
 
-routes.use('', chatRoutes)
-routes.use('', messageRoutes)
+  app.get('/getChats', (req, res) => chatsController.getChats(req, res))
+
+  app.post('/getMessages', (req, res) => messagesController.getMessages(req, res))
+  app.post('/sendMessage', (req, res) => messagesController.sendMessage(req, res))
+}
+

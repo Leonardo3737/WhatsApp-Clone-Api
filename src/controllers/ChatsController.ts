@@ -1,19 +1,23 @@
 
-import { Chat } from "whatsapp-web.js"
+import { Chat, Client } from "whatsapp-web.js"
 import { IChats } from "../interfaces"
 import { Chats } from "../models/Chats"
 
 
 export class ChatsController {
 
-  static async getChats(req: any, res: any) {
-    try {
-      const auxChats = await Chats()
+  constructor(private client: Client) {}
+
+  async getChats(req: any, res: any) {
+    try {      
+      const auxChats = await Chats(this.client)
+      
       const chats: IChats[] = auxChats!.map((c: Chat) => {
         return {
           id: c.id._serialized,
           name: c.name,
           isGroup: c.isGroup,
+          unreadCount: c.unreadCount,
           lastMessage: c.lastMessage ? {
             body: c.lastMessage.body,
             type: c.lastMessage.type,
